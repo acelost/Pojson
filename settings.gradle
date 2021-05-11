@@ -1,0 +1,6 @@
+include ':native-json-integration'
+include ':native-collection-integration'
+include ':gson-integration'
+include ':pojson'
+include ':app'
+rootProject.name = "Pojson"
