@@ -1,7 +1,6 @@
 plugins {
     id 'java-library'
     id 'kotlin'
-    id 'maven-publish'
 }
 
 java {
@@ -12,18 +11,4 @@ java {
 dependencies {
     api "com.google.code.gson:gson:2.8.6"
     api project(':pojson')
-}
-
-afterEvaluate {
-    publishing {
-        publications {
-            libraryJar(MavenPublication) {
-                from components.java
-
-                groupId = pojson_group_id
-                artifactId = 'gson'
-                version = pojson_library_version
-            }
-        }
-    }
 }

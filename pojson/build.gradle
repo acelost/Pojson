@@ -1,7 +1,6 @@
 plugins {
     id 'java-library'
     id 'kotlin'
-    id 'maven-publish'
 }
 
 java {
@@ -13,18 +12,4 @@ dependencies {
     testImplementation "junit:junit:$junit_version"
     testImplementation "org.mockito.kotlin:mockito-kotlin:$mockito_kotlin_version"
     testImplementation "org.assertj:assertj-core:$assertj_version"
-}
-
-afterEvaluate {
-    publishing {
-        publications {
-            libraryJar(MavenPublication) {
-                from components.java
-
-                groupId = pojson_group_id
-                artifactId = 'core'
-                version = pojson_library_version
-            }
-        }
-    }
 }
