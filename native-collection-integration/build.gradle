@@ -3,6 +3,14 @@ plugins {
     id 'kotlin'
 }
 
+ext {
+    PUBLISH_GROUP_ID = acelost_group_id
+    PUBLISH_VERSION = pojson_library_version
+    PUBLISH_ARTIFACT_ID = 'pojson-native-collection'
+}
+
+apply from: "${rootProject.projectDir}/scripts/publish-module.gradle"
+
 java {
     sourceCompatibility = JavaVersion.VERSION_1_7
     targetCompatibility = JavaVersion.VERSION_1_7
