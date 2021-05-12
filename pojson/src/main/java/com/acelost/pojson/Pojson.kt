@@ -21,8 +21,8 @@ class Pojson<ObjectType, ArrayType>(
             arrayFactory = arrayFactory,
             arrayAdapter = arrayAdapter
         )
-        val objectWrapper = context.newObject(jsonObjectPrototype.notation)
-        return requireNotNull(objectWrapper.value)
+        val genericObjectTransfer = context.newObject(jsonObjectPrototype.notation)
+        return requireNotNull(genericObjectTransfer.value)
     }
 
     fun render(jsonArrayPrototype: JsonArrayPrototype): ArrayType {
@@ -32,8 +32,8 @@ class Pojson<ObjectType, ArrayType>(
             arrayFactory = arrayFactory,
             arrayAdapter = arrayAdapter
         )
-        val arrayWrapper = context.newArray(jsonArrayPrototype.notation)
-        return requireNotNull(arrayWrapper.value)
+        val genericArrayTransfer = context.newArray(jsonArrayPrototype.notation)
+        return requireNotNull(genericArrayTransfer.value)
     }
 }
 

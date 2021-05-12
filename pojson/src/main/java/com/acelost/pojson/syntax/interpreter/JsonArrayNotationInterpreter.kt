@@ -28,21 +28,21 @@ class JsonArrayNotationInterpreter<ObjType, ArrType>(
         }
     }
 
-    fun element(wrapper: JsonObjectWrapper<*>) {
+    fun element(transfer: GenericObjectTransfer<*>) {
         context.updateArray { target ->
-            if (wrapper.value != null) {
+            if (transfer.value != null) {
                 @Suppress("UNCHECKED_CAST")
-                addObjectElement(target, wrapper.value as ObjType)
+                addObjectElement(target, transfer.value as ObjType)
             } else {
                 addNullElement(target)
             }
         }
     }
 
-    fun element(wrapper: JsonArrayWrapper<*>) {
+    fun element(transfer: GenericArrayTransfer<*>) {
         context.updateArray { target ->
             @Suppress("UNCHECKED_CAST")
-            addArrayElement(target, wrapper.value as ArrType)
+            addArrayElement(target, transfer.value as ArrType)
         }
     }
 
@@ -54,14 +54,40 @@ class JsonArrayNotationInterpreter<ObjType, ArrType>(
         element(array(value.notation))
     }
 
-    fun element(wrapper: JsonPrimitiveWrapper) {
+    fun element(transfer: NullableStringTransfer) {
         context.updateArray { target ->
-            when (val value = wrapper.value) {
-                is String -> addStringElement(target, value)
-                is Number -> addNumberElement(target, value)
-                is Boolean -> addBooleanElement(target, value)
-                else -> addNullElement(target)
+            val value = transfer.value
+            if (value != null) {
+                addStringElement(target, value)
+            } else {
+                addNullElement(target)
             }
         }
+    }
+
+    fun element(transfer: NullableNumberTransfer) {
+        context.updateArray { target ->
+            val value = transfer.value
+            if (value != null) {
+                addNumberElement(target, value)
+            } else {
+                addNullElement(target)
+            }
+        }
+    }
+
+    fun element(transfer: NullableBooleanTransfer) {
+        context.updateArray { target ->
+            val value = transfer.value
+            if (value != null) {
+                addBooleanElement(target, value)
+            } else {
+                addNullElement(target)
+            }
+        }
+    }
+
+    fun include(value: JsonArrayPrototype) {
+        context.updateArray(value.notation)
     }
 }

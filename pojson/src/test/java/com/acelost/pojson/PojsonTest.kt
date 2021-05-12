@@ -108,7 +108,7 @@ class PojsonTest {
     @Test
     fun `Object prototype with null value property spawns object with null property`() {
         val prototype = JsonObjectPrototype {
-            "null-property" % nullValue()
+            "null-property" % nullString()
         }
         pojson.render(prototype)
 
@@ -152,6 +152,69 @@ class PojsonTest {
         verify(jsonObjectFactory, times(1)).newInstance()
         verify(jsonArrayFactory, times(1)).newInstance()
         verify(jsonObjectAdapter, times(1)).addArrayProperty(any(), eq("nested-array"), any())
+    }
+
+    @Test
+    fun `Object prototype with nullable primitive property spawns object with value`() {
+        val prototype = JsonObjectPrototype {
+            "nullable-property" % nullable(42L)
+        }
+        pojson.render(prototype)
+
+        verify(jsonObjectFactory, times(1)).newInstance()
+        verify(jsonObjectAdapter, times(1)).addNumberProperty(any(), eq("nullable-property"), eq(42L))
+    }
+
+    @Test
+    fun `Object prototype with nullable primitive property spawns object with null`() {
+        val nullableString: String? = null
+        val prototype = JsonObjectPrototype {
+            "nullable-property" % nullable(nullableString)
+        }
+        pojson.render(prototype)
+
+        verify(jsonObjectFactory, times(1)).newInstance()
+        verify(jsonObjectAdapter, times(1)).addNullProperty(any(), eq("nullable-property"))
+    }
+
+    @Test
+    fun `Object prototype with nullable object property spawns object with value`() {
+        val nullableObject = JsonObjectPrototype {
+            // no-properties
+        }
+        val prototype = JsonObjectPrototype {
+            "nullable-property" % nullable(nullableObject)
+        }
+        pojson.render(prototype)
+
+        verify(jsonObjectFactory, times(2)).newInstance()
+        verify(jsonObjectAdapter, times(1)).addObjectProperty(any(), eq("nullable-property"), any())
+    }
+
+    @Test
+    fun `Object prototype with nullable object property spawns object with null`() {
+        val nullableObject: JsonObjectPrototype? = null
+        val prototype = JsonObjectPrototype {
+            "nullable-property" % nullable(nullableObject)
+        }
+        pojson.render(prototype)
+
+        verify(jsonObjectFactory, times(1)).newInstance()
+        verify(jsonObjectAdapter, times(1)).addNullProperty(any(), eq("nullable-property"))
+    }
+
+    @Test
+    fun `Object prototype includes properties from mixin object`() {
+        val mixin = JsonObjectPrototype {
+            "mixin-property" % 42L
+        }
+        val prototype = JsonObjectPrototype {
+            include(mixin)
+        }
+        pojson.render(prototype)
+
+        verify(jsonObjectFactory, times(1)).newInstance()
+        verify(jsonObjectAdapter, times(1)).addNumberProperty(any(), eq("mixin-property"), eq(42L))
     }
 
     @Test
@@ -227,7 +290,7 @@ class PojsonTest {
     @Test
     fun `Array prototype with null value element spawns one array with null element`() {
         val prototype = JsonArrayPrototype {
-            element(nullValue())
+            element(nullString())
         }
         pojson.render(prototype)
 
@@ -271,5 +334,19 @@ class PojsonTest {
 
         verify(jsonArrayFactory, times(2)).newInstance()
         verify(jsonArrayAdapter, times(1)).addArrayElement(any(), any())
+    }
+
+    @Test
+    fun `Array prototype includes elements from mixin array`() {
+        val mixin = JsonArrayPrototype {
+            element(42L)
+        }
+        val prototype = JsonArrayPrototype {
+            include(mixin)
+        }
+        pojson.render(prototype)
+
+        verify(jsonArrayFactory, times(1)).newInstance()
+        verify(jsonArrayAdapter, times(1)).addNumberElement(any(), eq(42L))
     }
 }

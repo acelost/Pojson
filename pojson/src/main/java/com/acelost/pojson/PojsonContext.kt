@@ -4,6 +4,8 @@ import com.acelost.pojson.adapter.JsonArrayAdapter
 import com.acelost.pojson.adapter.JsonObjectAdapter
 import com.acelost.pojson.factory.JsonArrayFactory
 import com.acelost.pojson.factory.JsonObjectFactory
+import com.acelost.pojson.prototype.JsonArrayPrototype
+import com.acelost.pojson.prototype.JsonObjectPrototype
 import com.acelost.pojson.syntax.interpreter.JsonArrayNotationInterpreter
 import com.acelost.pojson.syntax.interpreter.JsonObjectNotationInterpreter
 
@@ -11,13 +13,13 @@ class PojsonContext<ObjType, ArrType>(
     @PublishedApi
     @JvmField
     internal val objectFactory: JsonObjectFactory<ObjType>,
-        @PublishedApi
+    @PublishedApi
     @JvmField
     internal val objectAdapter: JsonObjectAdapter<ObjType, ArrType>,
-        @PublishedApi
+    @PublishedApi
     @JvmField
     internal val arrayFactory: JsonArrayFactory<ArrType>,
-        @PublishedApi
+    @PublishedApi
     @JvmField
     internal val arrayAdapter: JsonArrayAdapter<ObjType, ArrType>
 ) {
@@ -40,23 +42,39 @@ class PojsonContext<ObjType, ArrType>(
 
     @PublishedApi
     @JvmField
-    internal val objectWrapper = JsonObjectWrapper<ObjType>()
+    internal val genericObjectTransfer = GenericObjectTransfer<ObjType>()
 
     @PublishedApi
     @JvmField
-    internal val arrayWrapper = JsonArrayWrapper<ArrType>()
+    internal val genericArrayTransfer = GenericArrayTransfer<ArrType>()
 
     @PublishedApi
     @JvmField
-    internal val nullablePrimitiveWrapper = JsonPrimitiveWrapper()
+    internal val nullableStringTransfer = NullableStringTransfer()
 
-    inline fun newObject(notation: JsonObjectNotation): JsonObjectWrapper<ObjType> {
+    @PublishedApi
+    @JvmField
+    internal val nullableNumberTransfer = NullableNumberTransfer()
+
+    @PublishedApi
+    @JvmField
+    internal val nullableBooleanTransfer = NullableBooleanTransfer()
+
+    @PublishedApi
+    @JvmField
+    internal val nullableObjectTransfer = NullableObjectTransfer()
+
+    @PublishedApi
+    @JvmField
+    internal val nullableArrayTransfer = NullableArrayTransfer()
+
+    inline fun newObject(notation: JsonObjectNotation): GenericObjectTransfer<ObjType> {
         val prevObject = objectCursor
         val newObject = objectFactory.newInstance()
         objectCursor = newObject
         notation.invoke(objectNotationInterpreter)
         objectCursor = prevObject
-        return objectWrapper.apply { value = newObject }
+        return genericObjectTransfer.apply { value = newObject }
     }
 
     inline fun updateObject(notation: JsonObjectNotation) {
@@ -67,13 +85,13 @@ class PojsonContext<ObjType, ArrType>(
         update.invoke(objectAdapter, requireNotNull(objectCursor))
     }
 
-    inline fun newArray(notation: JsonArrayNotation): JsonArrayWrapper<ArrType> {
+    inline fun newArray(notation: JsonArrayNotation): GenericArrayTransfer<ArrType> {
         val prevArray = arrayCursor
         val newArray = arrayFactory.newInstance()
         arrayCursor = newArray
         notation.invoke(arrayNotationInterpreter)
         arrayCursor = prevArray
-        return arrayWrapper.apply { value = newArray }
+        return genericArrayTransfer.apply { value = newArray }
     }
 
     inline fun updateArray(notation: JsonArrayNotation) {
@@ -84,15 +102,43 @@ class PojsonContext<ObjType, ArrType>(
         update.invoke(arrayAdapter, requireNotNull(arrayCursor))
     }
 
-    fun wrapNullable(value: Any?): JsonPrimitiveWrapper {
-        return nullablePrimitiveWrapper.apply { this.value = value }
+    fun wrapNullable(value: String?): NullableStringTransfer {
+        return nullableStringTransfer.apply { this.value = value }
     }
 
-    fun nullPrimitive(): JsonPrimitiveWrapper {
-        return nullablePrimitiveWrapper.apply { this.value = null }
+    fun wrapNullable(value: Number?): NullableNumberTransfer {
+        return nullableNumberTransfer.apply { this.value = value }
     }
 
-    fun nullObject(): JsonObjectWrapper<ObjType> {
-        return objectWrapper.apply { this.value = null }
+    fun wrapNullable(value: Boolean?): NullableBooleanTransfer {
+        return nullableBooleanTransfer.apply { this.value = value }
+    }
+
+    fun wrapNullable(value: JsonObjectPrototype?): NullableObjectTransfer {
+        return nullableObjectTransfer.apply { this.value = value }
+    }
+
+    fun wrapNullable(value: JsonArrayPrototype?): NullableArrayTransfer {
+        return nullableArrayTransfer.apply { this.value = value }
+    }
+
+    fun nullString(): NullableStringTransfer {
+        return nullableStringTransfer.apply { this.value = null }
+    }
+
+    fun nullNumber(): NullableNumberTransfer {
+        return nullableNumberTransfer.apply { this.value = null }
+    }
+
+    fun nullBoolean(): NullableBooleanTransfer {
+        return nullableBooleanTransfer.apply { this.value = null }
+    }
+
+    fun nullObject(): GenericObjectTransfer<ObjType> {
+        return genericObjectTransfer.apply { this.value = null }
+    }
+
+    fun nullArray(): GenericArrayTransfer<ArrType> {
+        return genericArrayTransfer.apply { this.value = null }
     }
 }

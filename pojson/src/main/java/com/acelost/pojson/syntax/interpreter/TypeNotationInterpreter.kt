@@ -1,6 +1,8 @@
 package com.acelost.pojson.syntax.interpreter
 
 import com.acelost.pojson.*
+import com.acelost.pojson.prototype.JsonArrayPrototype
+import com.acelost.pojson.prototype.JsonObjectPrototype
 
 open class TypeNotationInterpreter<ObjType, ArrType>(
     @PublishedApi
@@ -8,38 +10,58 @@ open class TypeNotationInterpreter<ObjType, ArrType>(
     internal var context: PojsonContext<ObjType, ArrType>
 ) {
 
-    fun nullable(value: String?): JsonPrimitiveWrapper {
+    fun nullable(value: String?): NullableStringTransfer {
         return context.wrapNullable(value)
     }
 
-    fun nullable(value: Number): JsonPrimitiveWrapper {
+    fun nullable(value: Number): NullableNumberTransfer {
         return context.wrapNullable(value)
     }
 
-    fun nullable(value: Boolean): JsonPrimitiveWrapper {
+    fun nullable(value: Boolean): NullableBooleanTransfer {
         return context.wrapNullable(value)
     }
 
-    fun nullValue(): JsonPrimitiveWrapper {
-        return context.nullPrimitive()
+    fun nullable(value: JsonObjectPrototype?): NullableObjectTransfer {
+        return context.wrapNullable(value)
     }
 
-    fun nullObject(): JsonObjectWrapper<ObjType> {
+    fun nullable(value: JsonArrayPrototype?): NullableArrayTransfer {
+        return context.wrapNullable(value)
+    }
+
+    fun nullString(): NullableStringTransfer {
+        return context.nullString()
+    }
+
+    fun nullNumber(): NullableNumberTransfer {
+        return context.nullNumber()
+    }
+
+    fun nullBoolean(): NullableBooleanTransfer {
+        return context.nullBoolean()
+    }
+
+    fun nullObject(): GenericObjectTransfer<ObjType> {
         return context.nullObject()
     }
 
-    inline fun obj(notation: JsonObjectNotation): JsonObjectWrapper<ObjType> {
+    fun nullArray(): GenericArrayTransfer<ArrType> {
+        return context.nullArray()
+    }
+
+    inline fun obj(notation: JsonObjectNotation): GenericObjectTransfer<ObjType> {
         return context.newObject(notation)
     }
 
-    inline fun array(notation: JsonArrayNotation): JsonArrayWrapper<ArrType> {
+    inline fun array(notation: JsonArrayNotation): GenericArrayTransfer<ArrType> {
         return context.newArray(notation)
     }
 
     inline fun <T> objects(
         items: Iterable<T>,
         crossinline notation: ParameterizedJsonObjectNotation<T>
-    ): JsonArrayWrapper<ArrType> {
+    ): GenericArrayTransfer<ArrType> {
         return array {
             for (item in items) {
                 element(obj { notation(item) })
@@ -47,7 +69,7 @@ open class TypeNotationInterpreter<ObjType, ArrType>(
         }
     }
 
-    fun numbers(items: Iterable<Number>): JsonArrayWrapper<ArrType> {
+    fun numbers(items: Iterable<Number>): GenericArrayTransfer<ArrType> {
         return array {
             for (item in items) {
                 element(item)
@@ -55,7 +77,7 @@ open class TypeNotationInterpreter<ObjType, ArrType>(
         }
     }
 
-    fun strings(items: Iterable<String>): JsonArrayWrapper<ArrType> {
+    fun strings(items: Iterable<String>): GenericArrayTransfer<ArrType> {
         return array {
             for (item in items) {
                 element(item)
@@ -63,7 +85,7 @@ open class TypeNotationInterpreter<ObjType, ArrType>(
         }
     }
 
-    fun booleans(items: Iterable<Boolean>): JsonArrayWrapper<ArrType> {
+    fun booleans(items: Iterable<Boolean>): GenericArrayTransfer<ArrType> {
         return array {
             for (item in items) {
                 element(item)
@@ -74,7 +96,7 @@ open class TypeNotationInterpreter<ObjType, ArrType>(
     inline fun <T> arrays(
         items: Iterable<T>,
         crossinline notation: ParameterizedJsonArrayNotation<T>
-    ): JsonArrayWrapper<ArrType> {
+    ): GenericArrayTransfer<ArrType> {
         return array {
             for (item in items) {
                 element(array { notation(item) })

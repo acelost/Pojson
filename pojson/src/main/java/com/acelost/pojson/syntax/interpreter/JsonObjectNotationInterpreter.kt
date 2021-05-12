@@ -31,35 +31,59 @@ class JsonObjectNotationInterpreter<ObjType, ArrType>(
         }
     }
 
-    infix operator fun String.rem(wrapper: JsonPrimitiveWrapper) {
+    infix operator fun String.rem(transfer: NullableStringTransfer) {
         val key = this
         context.updateObject { target ->
-            when (val value = wrapper.value) {
-                is String -> addStringProperty(target, key, value)
-                is Number -> addNumberProperty(target, key, value)
-                is Boolean -> addBooleanProperty(target, key, value)
-                else -> addNullProperty(target, key)
-            }
-        }
-    }
-
-    infix operator fun String.rem(wrapper: JsonObjectWrapper<*>) {
-        val key = this
-        context.updateObject { target ->
-            if (wrapper.value != null) {
-                @Suppress("UNCHECKED_CAST")
-                addObjectProperty(target, key, wrapper.value as ObjType)
+            val value = transfer.value
+            if (value != null) {
+                addStringProperty(target, key, value)
             } else {
                 addNullProperty(target, key)
             }
         }
     }
 
-    infix operator fun String.rem(wrapper: JsonArrayWrapper<*>) {
+    infix operator fun String.rem(transfer: NullableNumberTransfer) {
+        val key = this
+        context.updateObject { target ->
+            val value = transfer.value
+            if (value != null) {
+                addNumberProperty(target, key, value)
+            } else {
+                addNullProperty(target, key)
+            }
+        }
+    }
+
+    infix operator fun String.rem(transfer: NullableBooleanTransfer) {
+        val key = this
+        context.updateObject { target ->
+            val value = transfer.value
+            if (value != null) {
+                addBooleanProperty(target, key, value)
+            } else {
+                addNullProperty(target, key)
+            }
+        }
+    }
+
+    infix operator fun String.rem(transfer: GenericObjectTransfer<*>) {
+        val key = this
+        context.updateObject { target ->
+            if (transfer.value != null) {
+                @Suppress("UNCHECKED_CAST")
+                addObjectProperty(target, key, transfer.value as ObjType)
+            } else {
+                addNullProperty(target, key)
+            }
+        }
+    }
+
+    infix operator fun String.rem(transfer: GenericArrayTransfer<*>) {
         val key = this
         context.updateObject { target ->
             @Suppress("UNCHECKED_CAST")
-            addArrayProperty(target, key, wrapper.value as ArrType)
+            addArrayProperty(target, key, transfer.value as ArrType)
         }
     }
 
@@ -67,8 +91,18 @@ class JsonObjectNotationInterpreter<ObjType, ArrType>(
         this % obj(value.notation)
     }
 
+    infix operator fun String.rem(transfer: NullableObjectTransfer) {
+        val notation = transfer.value?.notation
+        this % if (notation != null) obj(notation) else nullObject()
+    }
+
     infix operator fun String.rem(value: JsonArrayPrototype) {
         this % array(value.notation)
+    }
+
+    infix operator fun String.rem(transfer: NullableArrayTransfer) {
+        val notation = transfer.value?.notation
+        this % if (notation != null) array(notation) else nullArray()
     }
 
     fun include(value: JsonObjectPrototype) {
