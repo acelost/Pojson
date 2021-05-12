@@ -6,6 +6,7 @@ buildscript {
     ext.mockito_kotlin_version = "3.1.0"
     ext.assertj_version = "3.19.0"
     ext.pojson_library_version = "0.0.1"
+    ext.pojson_group_id = 'com.acelost.pojson'
 
     repositories {
         google()
@@ -17,7 +18,6 @@ buildscript {
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
-        classpath 'com.github.panpf.bintray-publish:bintray-publish:1.0.0'
     }
 }
 

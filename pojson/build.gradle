@@ -1,23 +1,7 @@
 plugins {
     id 'java-library'
     id 'kotlin'
-    id 'com.github.panpf.bintray-publish'
-}
-
-publish {
-
-    def groupProjectID = 'com.acelost.pojson'
-    def artifactProjectID = 'pojson-core'
-    def publishVersionID = pojson_library_version
-
-    userOrg = 'acelost'
-    repoName = 'Pojson'
-    groupId = groupProjectID
-    artifactId = artifactProjectID
-    publishVersion = publishVersionID
-    website = 'https://github.com/acelost/Pojson'
-    desc = 'Java library for building json with pretty kotlin dsl.'
-
+    id 'maven-publish'
 }
 
 java {
@@ -29,4 +13,18 @@ dependencies {
     testImplementation "junit:junit:$junit_version"
     testImplementation "org.mockito.kotlin:mockito-kotlin:$mockito_kotlin_version"
     testImplementation "org.assertj:assertj-core:$assertj_version"
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            libraryJar(MavenPublication) {
+                from components.java
+
+                groupId = pojson_group_id
+                artifactId = 'core'
+                version = pojson_library_version
+            }
+        }
+    }
 }
