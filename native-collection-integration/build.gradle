@@ -1,6 +1,7 @@
 plugins {
     id 'java-library'
     id 'kotlin'
+    id 'maven-publish'
 }
 
 java {
@@ -10,4 +11,18 @@ java {
 
 dependencies {
     api project(':pojson')
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            libraryJar(MavenPublication) {
+                from components.java
+
+                groupId = pojson_group_id
+                artifactId = 'native-collection'
+                version = pojson_library_version
+            }
+        }
+    }
 }
