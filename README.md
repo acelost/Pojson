@@ -17,6 +17,26 @@ val prototype = JsonObjectPrototype {
 }
 ```
 
+## Usage
+
+Actually `Pojson` is a kotlin class with methods `render` for object and array.
+```kotlin
+val prototype = JsonObjectPrototype {
+    ..
+}
+val pojson = Pojson(..)
+pojson.render(prototype) // Returns selected json object representation
+```
+`Pojson` constructor requires implementation of interfaces `JsonObjectFactory`, `JsonArrayFactory`, `JsonObjectAdapter`, `JsonArrayAdapter`. Usually implementation of this interfaces is a simple task. You can implement this interfaces manually or use one of existing integration with json object/array representation.
+```kotlin
+val prototype = JsonObjectPrototype {
+    ..
+}
+Pojson2Gson.create().render(prototype) // Returns com.google.gson.JsonObject
+Pojson2NativeJSON.create().render(prototype) // Returns org.json.JSONObject
+Pojson2NativeCollection.create().render(prototype) // Returns java.util.Map
+```
+
 ## Syntax
 
 ### Create object
