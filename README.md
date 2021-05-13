@@ -1,6 +1,6 @@
 # Pojson
 
-Pojson is a kotlin library for json prototyping. It brings DSL for building `JsonObjectPrototype` and `JsonArrayPrototype`. Prototypes don't references to any json object/array models. You can choose implementation you want to use for rendering json. Simple json prototype may looks like:
+Pojson is a kotlin library for json prototyping. It brings DSL for building `JsonObjectPrototype` and `JsonArrayPrototype`. Prototypes don't reference to any json object/array models. You can choose implementation you want to use for rendering json. Simple json prototype may looks like:
 
 ```kotlin
 val prototype = JsonObjectPrototype {
@@ -110,7 +110,7 @@ JsonObjectPrototype {
 Also pojson provides utility methods `nullString`, `nullNumber`, `nullBoolean`, `nullObject` and `nullArray`  
 for kotlin type inference when you want to use if-else expressions inside object/array notation.
 ```kotlin
-JsonObjectProperty {
+JsonObjectPrototype {
     "my-property" % if (myFlag) obj {
         ..
     } else nullObject()
@@ -131,8 +131,8 @@ val car = JsonObjectPrototype {
 }
 ```
 
-### Inclusion
-Pojson provides capability to include prototype into another.
+### Merge
+Pojson provides capability to merge prototype properties into another prototype.
 ```kotlin
 val design = JsonObjectPrototype {
     "color" % "black"
@@ -141,7 +141,7 @@ val design = JsonObjectPrototype {
 val car = JsonObjectPrototype {
     "model" % "Defender"
     "year" % 2017
-    include(design)
+    merge(design)
 }
 ```
 

@@ -105,7 +105,7 @@ class JsonObjectNotationInterpreter<ObjType, ArrType>(
         this % if (notation != null) array(notation) else nullArray()
     }
 
-    fun include(value: JsonObjectPrototype) {
+    fun merge(value: JsonObjectPrototype) {
         context.updateObject(value.notation)
     }
 }

@@ -87,7 +87,7 @@ class JsonArrayNotationInterpreter<ObjType, ArrType>(
         }
     }
 
-    fun include(value: JsonArrayPrototype) {
+    fun merge(value: JsonArrayPrototype) {
         context.updateArray(value.notation)
     }
 }

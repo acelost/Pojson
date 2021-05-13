@@ -6,7 +6,7 @@ buildscript {
     ext.junit_version = '4.13'
     ext.mockito_kotlin_version = '3.1.0'
     ext.assertj_version = "3.19.0"
-    ext.pojson_library_version = '0.0.2'
+    ext.pojson_library_version = '0.0.4'
     ext.acelost_group_id = 'io.github.acelost'
     ext.gradle_nexus_version = '1.1.0'
 

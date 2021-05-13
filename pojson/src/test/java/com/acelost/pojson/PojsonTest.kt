@@ -209,7 +209,7 @@ class PojsonTest {
             "mixin-property" % 42L
         }
         val prototype = JsonObjectPrototype {
-            include(mixin)
+            merge(mixin)
         }
         pojson.render(prototype)
 
@@ -342,7 +342,7 @@ class PojsonTest {
             element(42L)
         }
         val prototype = JsonArrayPrototype {
-            include(mixin)
+            merge(mixin)
         }
         pojson.render(prototype)
 
