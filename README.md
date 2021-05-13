@@ -19,17 +19,15 @@ val prototype = JsonObjectPrototype {
 
 ## Syntax
 
-### Object notation
-
-#### Create object
+### Create object
 Pojson provides class `JsonObjectPrototype` with constructor as entry point for object notation.
 ```kotlin
 JsonObjectPrototype {
-    ...
+    ..
 }
 ```
 
-#### Assign property
+### Assign property
 Pojson provides overloaded operator `%` for assigning value to key in object notation.
 ```kotlin
 JsonObjectPrototype {
@@ -37,17 +35,15 @@ JsonObjectPrototype {
 }
 ```
 
-### Array notation
-
-#### Create array
+### Create array
 Pojson provides class `JsonArrayPrototype` with constructor as entry point for array notation.
 ```kotlin
 JsonArrayPrototype {
-    ...
+    ..
 }
 ```
 
-#### Append element
+### Append element
 Pojson provides `element(..)` method for appending items to array.
 ```kotlin
 JsonArrayPrototype {
@@ -56,9 +52,7 @@ JsonArrayPrototype {
 }
 ```
 
-### Type notation
-
-#### Nested object
+### Nested object
 Pojson provides method `obj { .. }` for nested object instantiation.
 ```kotlin
 JsonObjectPrototype {
@@ -68,17 +62,17 @@ JsonObjectPrototype {
 }
 ```
 
-#### Nested array
+### Nested array
 Pojson provides method `array { .. }` for nested array instantiation.
 ```kotlin
 JsonObjectPrototype {
     "my-property" % array {
-        
+        ..
     }
 }
 ```
 
-#### Nullability
+### Nullability
 By default pojson requires all values to be non-null.
 If you want to work with nullable values you should specify it explicitly.
 Pojson provides method `nullable` for this purpose.
@@ -98,12 +92,12 @@ for kotlin type inference when you want to use if-else expressions inside object
 ```kotlin
 JsonObjectProperty {
     "my-property" % if (myFlag) obj {
-        ...
+        ..
     } else nullObject()
 }
 ```
 
-#### Composition
+### Composition
 Pojson provides capability to composite prototypes.
 ```kotlin
 val manufacturer = JsonObjectPrototype {
@@ -117,7 +111,7 @@ val car = JsonObjectPrototype {
 }
 ```
 
-#### Inclusion
+### Inclusion
 Pojson provides capability to include prototype into another.
 ```kotlin
 val design = JsonObjectPrototype {
