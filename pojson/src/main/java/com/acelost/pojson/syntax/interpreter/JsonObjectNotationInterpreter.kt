@@ -82,8 +82,12 @@ class JsonObjectNotationInterpreter<ObjType, ArrType>(
     infix operator fun String.rem(transfer: GenericArrayTransfer<*>) {
         val key = this
         context.updateObject { target ->
-            @Suppress("UNCHECKED_CAST")
-            addArrayProperty(target, key, transfer.value as ArrType)
+            if (transfer.value != null) {
+                @Suppress("UNCHECKED_CAST")
+                addArrayProperty(target, key, transfer.value as ArrType)
+            } else {
+                addNullProperty(target, key)
+            }
         }
     }
 

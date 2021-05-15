@@ -7,7 +7,7 @@ import com.acelost.pojson.factory.JsonObjectFactory
 import com.acelost.pojson.prototype.JsonArrayPrototype
 import com.acelost.pojson.prototype.JsonObjectPrototype
 
-class Pojson<ObjectType, ArrayType>(
+open class Pojson<ObjectType, ArrayType>(
     private val objectFactory: JsonObjectFactory<ObjectType>,
     private val objectAdapter: JsonObjectAdapter<ObjectType, ArrayType>,
     private val arrayFactory: JsonArrayFactory<ArrayType>,

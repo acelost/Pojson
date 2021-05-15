@@ -9,12 +9,22 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonNull
 import com.google.gson.JsonObject
 
-class Pojson2Gson {
+class Pojson2Gson(
+    objectFactory: JsonObjectFactory<JsonObject>,
+    objectAdapter: JsonObjectAdapter<JsonObject, JsonArray>,
+    arrayFactory: JsonArrayFactory<JsonArray>,
+    arrayAdapter: JsonArrayAdapter<JsonObject, JsonArray>
+) : Pojson<JsonObject, JsonArray>(
+    objectFactory = objectFactory,
+    objectAdapter = objectAdapter,
+    arrayFactory = arrayFactory,
+    arrayAdapter = arrayAdapter
+) {
 
     companion object {
 
-        fun create(): Pojson<JsonObject, JsonArray> {
-            return Pojson(
+        fun create(): Pojson2Gson {
+            return Pojson2Gson(
                 objectFactory = GsonObjectFactory(),
                 objectAdapter = GsonObjectAdapter(),
                 arrayFactory = GsonArrayFactory(),

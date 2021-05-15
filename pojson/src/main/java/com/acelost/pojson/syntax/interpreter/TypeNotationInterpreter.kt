@@ -14,11 +14,11 @@ open class TypeNotationInterpreter<ObjType, ArrType>(
         return context.wrapNullable(value)
     }
 
-    fun nullable(value: Number): NullableNumberTransfer {
+    fun nullable(value: Number?): NullableNumberTransfer {
         return context.wrapNullable(value)
     }
 
-    fun nullable(value: Boolean): NullableBooleanTransfer {
+    fun nullable(value: Boolean?): NullableBooleanTransfer {
         return context.wrapNullable(value)
     }
 
@@ -58,6 +58,16 @@ open class TypeNotationInterpreter<ObjType, ArrType>(
         return context.newArray(notation)
     }
 
+    fun objects(
+        items: Iterable<JsonObjectPrototype>
+    ): GenericArrayTransfer<ArrType> {
+        return array {
+            for (item in items) {
+                element(item)
+            }
+        }
+    }
+
     inline fun <T> objects(
         items: Iterable<T>,
         crossinline notation: ParameterizedJsonObjectNotation<T>
@@ -86,6 +96,16 @@ open class TypeNotationInterpreter<ObjType, ArrType>(
     }
 
     fun booleans(items: Iterable<Boolean>): GenericArrayTransfer<ArrType> {
+        return array {
+            for (item in items) {
+                element(item)
+            }
+        }
+    }
+
+    fun arrays(
+        items: Iterable<JsonArrayPrototype>
+    ): GenericArrayTransfer<ArrType> {
         return array {
             for (item in items) {
                 element(item)

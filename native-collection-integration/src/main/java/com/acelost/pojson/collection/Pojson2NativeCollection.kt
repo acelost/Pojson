@@ -8,16 +8,26 @@ import com.acelost.pojson.factory.JsonObjectFactory
 import java.util.*
 import kotlin.collections.LinkedHashMap
 
-typealias NativeStructureObject = MutableMap<String, Any?>
+typealias NativeCollectionObject = MutableMap<String, Any?>
 
-typealias NativeStructureArray = MutableList<Any?>
+typealias NativeCollectionArray = MutableList<Any?>
 
-class Pojson2NativeCollection {
+class Pojson2NativeCollection(
+    objectFactory: JsonObjectFactory<NativeCollectionObject>,
+    objectAdapter: JsonObjectAdapter<NativeCollectionObject, NativeCollectionArray>,
+    arrayFactory: JsonArrayFactory<NativeCollectionArray>,
+    arrayAdapter: JsonArrayAdapter<NativeCollectionObject, NativeCollectionArray>
+) : Pojson<NativeCollectionObject, NativeCollectionArray>(
+    objectFactory = objectFactory,
+    objectAdapter = objectAdapter,
+    arrayFactory = arrayFactory,
+    arrayAdapter = arrayAdapter
+) {
 
     companion object {
 
-        fun create(): Pojson<NativeStructureObject, NativeStructureArray> {
-            return Pojson(
+        fun create(): Pojson2NativeCollection {
+            return Pojson2NativeCollection(
                 objectFactory = NativeCollectionObjectFactory(),
                 objectAdapter = NativeCollectionObjectAdapter(),
                 arrayFactory = NativeCollectionArrayFactory(),
@@ -27,78 +37,78 @@ class Pojson2NativeCollection {
     }
 }
 
-private class NativeCollectionObjectFactory : JsonObjectFactory<NativeStructureObject> {
+private class NativeCollectionObjectFactory : JsonObjectFactory<NativeCollectionObject> {
 
-    override fun newInstance(): NativeStructureObject {
+    override fun newInstance(): NativeCollectionObject {
         return LinkedHashMap()
     }
 }
 
-private class NativeCollectionArrayFactory : JsonArrayFactory<NativeStructureArray> {
+private class NativeCollectionArrayFactory : JsonArrayFactory<NativeCollectionArray> {
 
-    override fun newInstance(): NativeStructureArray {
+    override fun newInstance(): NativeCollectionArray {
         return LinkedList()
     }
 }
 
-private class NativeCollectionObjectAdapter : JsonObjectAdapter<NativeStructureObject, NativeStructureArray> {
+private class NativeCollectionObjectAdapter : JsonObjectAdapter<NativeCollectionObject, NativeCollectionArray> {
 
-    override fun addStringProperty(target: NativeStructureObject, key: String, value: String) {
+    override fun addStringProperty(target: NativeCollectionObject, key: String, value: String) {
         target[key] = value
     }
 
-    override fun addNumberProperty(target: NativeStructureObject, key: String, value: Number) {
+    override fun addNumberProperty(target: NativeCollectionObject, key: String, value: Number) {
         target[key] = value
     }
 
-    override fun addBooleanProperty(target: NativeStructureObject, key: String, value: Boolean) {
+    override fun addBooleanProperty(target: NativeCollectionObject, key: String, value: Boolean) {
         target[key] = value
     }
 
     override fun addObjectProperty(
-        target: NativeStructureObject,
+        target: NativeCollectionObject,
         key: String,
-        value: NativeStructureObject
+        value: NativeCollectionObject
     ) {
         target[key] = value
     }
 
     override fun addArrayProperty(
-        target: NativeStructureObject,
+        target: NativeCollectionObject,
         key: String,
-        value: NativeStructureArray
+        value: NativeCollectionArray
     ) {
         target[key] = value
     }
 
-    override fun addNullProperty(target: NativeStructureObject, key: String) {
+    override fun addNullProperty(target: NativeCollectionObject, key: String) {
         target[key] = null
     }
 }
 
-private class NativeCollectionArrayAdapter : JsonArrayAdapter<NativeStructureObject, NativeStructureArray> {
+private class NativeCollectionArrayAdapter : JsonArrayAdapter<NativeCollectionObject, NativeCollectionArray> {
 
-    override fun addStringElement(target: NativeStructureArray, value: String) {
+    override fun addStringElement(target: NativeCollectionArray, value: String) {
         target.add(value)
     }
 
-    override fun addNumberElement(target: NativeStructureArray, value: Number) {
+    override fun addNumberElement(target: NativeCollectionArray, value: Number) {
         target.add(value)
     }
 
-    override fun addBooleanElement(target: NativeStructureArray, value: Boolean) {
+    override fun addBooleanElement(target: NativeCollectionArray, value: Boolean) {
         target.add(value)
     }
 
-    override fun addObjectElement(target: NativeStructureArray, value: NativeStructureObject) {
+    override fun addObjectElement(target: NativeCollectionArray, value: NativeCollectionObject) {
         target.add(value)
     }
 
-    override fun addArrayElement(target: NativeStructureArray, value: NativeStructureArray) {
+    override fun addArrayElement(target: NativeCollectionArray, value: NativeCollectionArray) {
         target.add(value)
     }
 
-    override fun addNullElement(target: NativeStructureArray) {
+    override fun addNullElement(target: NativeCollectionArray) {
         target.add(null)
     }
 }

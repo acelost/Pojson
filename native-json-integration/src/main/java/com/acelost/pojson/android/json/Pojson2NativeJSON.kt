@@ -8,12 +8,22 @@ import com.acelost.pojson.factory.JsonObjectFactory
 import org.json.JSONArray
 import org.json.JSONObject
 
-class Pojson2NativeJSON {
+class Pojson2NativeJSON(
+    objectFactory: JsonObjectFactory<JSONObject>,
+    objectAdapter: JsonObjectAdapter<JSONObject, JSONArray>,
+    arrayFactory: JsonArrayFactory<JSONArray>,
+    arrayAdapter: JsonArrayAdapter<JSONObject, JSONArray>
+) : Pojson<JSONObject, JSONArray>(
+    objectFactory = objectFactory,
+    objectAdapter = objectAdapter,
+    arrayFactory = arrayFactory,
+    arrayAdapter = arrayAdapter
+) {
 
     companion object {
 
-        fun create(): Pojson<JSONObject, JSONArray> {
-            return Pojson(
+        fun create(): Pojson2NativeJSON {
+            return Pojson2NativeJSON(
                 objectFactory = NativeJSONObjectFactory(),
                 objectAdapter = NativeJSONObjectAdapter(),
                 arrayFactory = NativeJSONArrayFactory(),

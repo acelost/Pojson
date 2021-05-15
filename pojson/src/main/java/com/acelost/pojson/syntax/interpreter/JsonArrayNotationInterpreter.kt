@@ -87,6 +87,28 @@ class JsonArrayNotationInterpreter<ObjType, ArrType>(
         }
     }
 
+    fun element(transfer: NullableObjectTransfer) {
+        context.updateArray { target ->
+            val value = transfer.value
+            if (value != null) {
+                element(value)
+            } else {
+                addNullElement(target)
+            }
+        }
+    }
+
+    fun element(transfer: NullableArrayTransfer) {
+        context.updateArray { target ->
+            val value = transfer.value
+            if (value != null) {
+                element(value)
+            } else {
+                addNullElement(target)
+            }
+        }
+    }
+
     fun merge(value: JsonArrayPrototype) {
         context.updateArray(value.notation)
     }
