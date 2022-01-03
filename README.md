@@ -144,6 +144,56 @@ val car = JsonObjectPrototype {
     merge(design)
 }
 ```
+or
+```kotlin
+fun formatDesign(): JsonObjectNotation = {
+    "color" % "black"
+    "wheels" % "20.0 inch"
+}
+fun formatCar(): JsonObjectNotation = {
+    "model" % "Defender"
+    "year" % 2017
+    merge(formatDesign())
+}
+```
+Also you can merge arrays in the same manner.
+```kotlin
+val vowels = JsonArrayPrototype {
+    for (letter in listOf("A", "E", "I", "O", "U")) {
+        element(letter)
+    }
+}
+
+val consonants = JsonArrayPrototype {
+    for (letter in listOf("B", "C", "D", "F", "G", "H", ..)) {
+        element(letter)
+    }
+}
+
+val letters = JsonArrayPrototype {
+    merge(vowels)
+    merge(consonants)
+}
+```
+or
+```kotlin
+fun formatVowels(): JsonArrayNotation {
+    for (letter in listOf("A", "E", "I", "O", "U")) {
+        element(letter)
+    }
+}
+
+fun formatConsonants(): JsonArrayNotation {
+    for (letter in listOf("B", "C", "D", "F", "G", "H", ..)) {
+        element(letter)
+    }
+}
+
+fun formatLetters(): JsonArrayNotation {
+    merge(vowels)
+    merge(consonants)
+}
+```
 
 ## Integration
 
