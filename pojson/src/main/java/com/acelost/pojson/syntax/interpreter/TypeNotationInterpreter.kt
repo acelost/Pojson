@@ -54,11 +54,53 @@ open class TypeNotationInterpreter<ObjType, ArrType>(
         return context.newObject(notation)
     }
 
+    inline fun <T> obj(context: T, notation: ParameterizedJsonObjectNotation<T>): GenericObjectTransfer<ObjType> {
+        return this.context.newObject {
+            notation.invoke(this, context)
+        }
+    }
+
     inline fun array(notation: JsonArrayNotation): GenericArrayTransfer<ArrType> {
         return context.newArray(notation)
     }
 
-    fun objects(
+    fun arrayOfNumbers(items: Iterable<Number>): GenericArrayTransfer<ArrType> {
+        return array {
+            for (item in items) {
+                element(item)
+            }
+        }
+    }
+
+    fun arrayOfNumbers(vararg items: Number): GenericArrayTransfer<ArrType> {
+        return arrayOfNumbers(*items)
+    }
+
+    fun arrayOfStrings(items: Iterable<String>): GenericArrayTransfer<ArrType> {
+        return array {
+            for (item in items) {
+                element(item)
+            }
+        }
+    }
+
+    fun arrayOfStrings(vararg items: String): GenericArrayTransfer<ArrType> {
+        return arrayOfStrings(*items)
+    }
+
+    fun arrayOfBooleans(items: Iterable<Boolean>): GenericArrayTransfer<ArrType> {
+        return array {
+            for (item in items) {
+                element(item)
+            }
+        }
+    }
+
+    fun arrayOfBooleans(vararg items: Boolean): GenericArrayTransfer<ArrType> {
+        return arrayOfBooleans(*items)
+    }
+
+    fun arrayOfObjects(
         items: Iterable<JsonObjectPrototype>
     ): GenericArrayTransfer<ArrType> {
         return array {
@@ -68,7 +110,7 @@ open class TypeNotationInterpreter<ObjType, ArrType>(
         }
     }
 
-    inline fun <T> objects(
+    inline fun <T> arrayOfObjects(
         items: Iterable<T>,
         crossinline notation: ParameterizedJsonObjectNotation<T>
     ): GenericArrayTransfer<ArrType> {
@@ -79,31 +121,7 @@ open class TypeNotationInterpreter<ObjType, ArrType>(
         }
     }
 
-    fun numbers(items: Iterable<Number>): GenericArrayTransfer<ArrType> {
-        return array {
-            for (item in items) {
-                element(item)
-            }
-        }
-    }
-
-    fun strings(items: Iterable<String>): GenericArrayTransfer<ArrType> {
-        return array {
-            for (item in items) {
-                element(item)
-            }
-        }
-    }
-
-    fun booleans(items: Iterable<Boolean>): GenericArrayTransfer<ArrType> {
-        return array {
-            for (item in items) {
-                element(item)
-            }
-        }
-    }
-
-    fun arrays(
+    fun arrayOfArrays(
         items: Iterable<JsonArrayPrototype>
     ): GenericArrayTransfer<ArrType> {
         return array {
@@ -113,7 +131,7 @@ open class TypeNotationInterpreter<ObjType, ArrType>(
         }
     }
 
-    inline fun <T> arrays(
+    inline fun <T> arrayOfArrays(
         items: Iterable<T>,
         crossinline notation: ParameterizedJsonArrayNotation<T>
     ): GenericArrayTransfer<ArrType> {

@@ -57,6 +57,19 @@ class JsonObjectPropertyTest : BasePojsonTest() {
     }
 
     @Test
+    fun `Parameterized object assignation triggers addObjectProperty method`() {
+        val prototype = JsonObjectPrototype {
+            "my-property" % obj(42L) {
+                // no-properties
+            }
+        }
+        pojson.render(prototype)
+
+        verify(jsonObjectFactory, times(2)).newInstance()
+        verify(jsonObjectAdapter, times(1)).addObjectProperty(any(), eq("my-property"), any())
+    }
+
+    @Test
     fun `Array property assignation triggers addArrayProperty method`() {
         val prototype = JsonObjectPrototype {
             "my-property" % array {
@@ -144,7 +157,7 @@ class JsonObjectPropertyTest : BasePojsonTest() {
     @Test
     fun `Strings property assignation triggers addArrayProperty method`() {
         val prototype = JsonObjectPrototype {
-            "my-array" % strings(listOf("hello", "world"))
+            "my-array" % arrayOfStrings(listOf("hello", "world"))
         }
         pojson.render(prototype)
 
@@ -158,7 +171,7 @@ class JsonObjectPropertyTest : BasePojsonTest() {
     @Test
     fun `Numbers property assignation triggers addArrayProperty method`() {
         val prototype = JsonObjectPrototype {
-            "my-array" % numbers(listOf(1, 2, 3))
+            "my-array" % arrayOfNumbers(listOf(1, 2, 3))
         }
         pojson.render(prototype)
 
@@ -173,7 +186,7 @@ class JsonObjectPropertyTest : BasePojsonTest() {
     @Test
     fun `Booleans property assignation triggers addArrayProperty method`() {
         val prototype = JsonObjectPrototype {
-            "my-array" % booleans(listOf(true, false))
+            "my-array" % arrayOfBooleans(listOf(true, false))
         }
         pojson.render(prototype)
 
@@ -192,7 +205,7 @@ class JsonObjectPropertyTest : BasePojsonTest() {
             }
         )
         val prototype = JsonObjectPrototype {
-            "my-array" % objects(items)
+            "my-array" % arrayOfObjects(items)
         }
         pojson.render(prototype)
 
@@ -210,7 +223,7 @@ class JsonObjectPropertyTest : BasePojsonTest() {
             }
         )
         val prototype = JsonObjectPrototype {
-            "my-array" % arrays(items)
+            "my-array" % arrayOfArrays(items)
         }
         pojson.render(prototype)
 

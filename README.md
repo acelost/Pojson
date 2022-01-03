@@ -62,6 +62,17 @@ JsonArrayPrototype {
     ..
 }
 ```
+You can create array shortly if all elements has the same type.
+```kotlin
+JsonArrayPrototype.strings("foo", "bar", "baz")
+
+JsonArrayPrototype.numbers(1, 2, 42)
+
+JsonArrayPrototype.objects(list) { item ->
+    // object format logic, dsl available
+    ..
+}
+```
 
 ### Append element
 Pojson provides `element(..)` method for appending items to array.
@@ -81,12 +92,33 @@ JsonObjectPrototype {
     }
 }
 ```
+Also you can call `obj { .. }` with context.
+```kotlin
+JsonObjectPrototype {
+    "my-property" % obj(model) {
+        "my-nested-property" % it.name
+    }
+}
+```
 
 ### Nested array
 Pojson provides method `array { .. }` for nested array instantiation.
 ```kotlin
 JsonObjectPrototype {
     "my-property" % array {
+        ..
+    }
+}
+```
+
+### Typed arrays
+Pojson provides shortcuts for nested arrays if all elements has the same type.
+```kotlin
+JsonObjectPrototype {
+    "my-strings-property" % arrayOfStrings("foo", "bar", "baz")
+    "my-numbers-property" % arrayOfNumbers(1, 2, 42)
+    "my-booleans-property" % arrayOfBooleans(true, true, false)
+    "my-objects-property" % arrayOfObjects(models) { model ->
         ..
     }
 }

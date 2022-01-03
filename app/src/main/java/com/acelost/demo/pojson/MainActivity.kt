@@ -7,7 +7,7 @@ import com.acelost.pojson.collection.Pojson2KotlinCollection
 import com.acelost.pojson.gson.Pojson2Gson
 
 class MainActivity : Activity() {
-    
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

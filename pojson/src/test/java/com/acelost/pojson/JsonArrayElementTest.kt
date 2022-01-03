@@ -144,7 +144,7 @@ class JsonArrayElementTest : BasePojsonTest() {
     @Test
     fun `Strings element triggers addArrayElement method`() {
         val prototype = JsonArrayPrototype {
-            element(strings(listOf("hello", "world")))
+            element(arrayOfStrings(listOf("hello", "world")))
         }
         pojson.render(prototype)
 
@@ -157,7 +157,7 @@ class JsonArrayElementTest : BasePojsonTest() {
     @Test
     fun `Numbers element triggers addArrayElement method`() {
         val prototype = JsonArrayPrototype {
-            element(numbers(listOf(1, 2, 3)))
+            element(arrayOfNumbers(listOf(1, 2, 3)))
         }
         pojson.render(prototype)
 
@@ -171,7 +171,7 @@ class JsonArrayElementTest : BasePojsonTest() {
     @Test
     fun `Booleans element triggers addArrayElement method`() {
         val prototype = JsonArrayPrototype {
-            element(booleans(listOf(true, false)))
+            element(arrayOfBooleans(listOf(true, false)))
         }
         pojson.render(prototype)
 
@@ -189,7 +189,7 @@ class JsonArrayElementTest : BasePojsonTest() {
             }
         )
         val prototype = JsonArrayPrototype {
-            element(objects(items))
+            element(arrayOfObjects(items))
         }
         pojson.render(prototype)
 
@@ -207,7 +207,7 @@ class JsonArrayElementTest : BasePojsonTest() {
             }
         )
         val prototype = JsonArrayPrototype {
-            element(arrays(items))
+            element(arrayOfArrays(items))
         }
         pojson.render(prototype)
 
