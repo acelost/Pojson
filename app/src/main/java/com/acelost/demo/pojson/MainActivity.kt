@@ -2,8 +2,8 @@ package com.acelost.demo.pojson
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.acelost.pojson.android.json.Pojson2NativeJSON
-import com.acelost.pojson.collection.Pojson2NativeCollection
+import com.acelost.pojson.android.json.Pojson2AndroidJSON
+import com.acelost.pojson.collection.Pojson2KotlinCollection
 import com.acelost.pojson.gson.Pojson2Gson
 
 class MainActivity : AppCompatActivity() {
@@ -11,7 +11,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         Pojson2Gson.create()
-        Pojson2NativeJSON.create()
-        Pojson2NativeCollection.create()
+        Pojson2AndroidJSON.create()
+        Pojson2KotlinCollection.create()
     }
 }

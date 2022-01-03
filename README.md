@@ -33,8 +33,8 @@ val prototype = JsonObjectPrototype {
     ..
 }
 Pojson2Gson.create().render(prototype) // Returns com.google.gson.JsonObject
-Pojson2NativeJSON.create().render(prototype) // Returns org.json.JSONObject
-Pojson2NativeCollection.create().render(prototype) // Returns java.util.Map
+Pojson2AndroidJSON.create().render(prototype) // Returns org.json.JSONObject
+Pojson2KotlinCollection.create().render(prototype) // Returns kotlin.collections.MutableMap
 ```
 
 ## Syntax
@@ -171,26 +171,26 @@ dependencies {
 }
 ```
 
-### Native Json
+### Android Json
 
-![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.acelost/pojson-native-json/badge.svg)
+![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.acelost/pojson-android-json/badge.svg)
 
-Native Json module contains syntax declaration plus integration with native android object model. You can render prototypes to `org.json.JSONObject` and `org.json.JSONArray`.
+Android Json module contains syntax declaration plus integration with native android object model. You can render prototypes to `org.json.JSONObject` and `org.json.JSONArray`.
 
 ```groovy
 dependencies {
-    implementation 'io.github.acelost:pojson-native-json:${latestVersion}'
+    implementation 'io.github.acelost:pojson-android-json:${latestVersion}'
 }
 ```
 
-### Native Collection
+### Kotlin Collection
 
-![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.acelost/pojson-native-collection/badge.svg)
+![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.acelost/pojson-kotlin-collection/badge.svg)
 
-Native Collection module contains syntax declaration plus integration with native java collections. You can render prototypes to `java.util.Map` and `java.util.List`.
+Koltin Collection module contains syntax declaration plus integration with kotlin collections. You can render prototypes to `kotlin.collections.Map` and `kotlin.collections.List`.
 
 ```groovy
 dependencies {
-    implementation 'io.github.acelost:pojson-native-collection:${latestVersion}'
+    implementation 'io.github.acelost:pojson-kotlin-collection:${latestVersion}'
 }
 ```

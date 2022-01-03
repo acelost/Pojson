@@ -1,5 +1,5 @@
-include ':native-json-integration'
-include ':native-collection-integration'
+include ':kotlin-collection-integration'
+include ':android-json-integration'
 include ':gson-integration'
 include ':pojson'
 include ':app'

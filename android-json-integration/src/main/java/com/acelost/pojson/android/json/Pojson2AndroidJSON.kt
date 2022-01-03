@@ -8,7 +8,7 @@ import com.acelost.pojson.factory.JsonObjectFactory
 import org.json.JSONArray
 import org.json.JSONObject
 
-class Pojson2NativeJSON(
+class Pojson2AndroidJSON(
     objectFactory: JsonObjectFactory<JSONObject>,
     objectAdapter: JsonObjectAdapter<JSONObject, JSONArray>,
     arrayFactory: JsonArrayFactory<JSONArray>,
@@ -22,32 +22,32 @@ class Pojson2NativeJSON(
 
     companion object {
 
-        fun create(): Pojson2NativeJSON {
-            return Pojson2NativeJSON(
-                objectFactory = NativeJSONObjectFactory(),
-                objectAdapter = NativeJSONObjectAdapter(),
-                arrayFactory = NativeJSONArrayFactory(),
-                arrayAdapter = NativeJSONArrayAdapter()
+        fun create(): Pojson2AndroidJSON {
+            return Pojson2AndroidJSON(
+                objectFactory = AndroidJSONObjectFactory(),
+                objectAdapter = AndroidJSONObjectAdapter(),
+                arrayFactory = AndroidJSONArrayFactory(),
+                arrayAdapter = AndroidJSONArrayAdapter()
             )
         }
     }
 }
 
-private class NativeJSONObjectFactory : JsonObjectFactory<JSONObject> {
+private class AndroidJSONObjectFactory : JsonObjectFactory<JSONObject> {
 
     override fun newInstance(): JSONObject {
         return JSONObject()
     }
 }
 
-private class NativeJSONArrayFactory : JsonArrayFactory<JSONArray> {
+private class AndroidJSONArrayFactory : JsonArrayFactory<JSONArray> {
 
     override fun newInstance(): JSONArray {
         return JSONArray()
     }
 }
 
-private class NativeJSONObjectAdapter : JsonObjectAdapter<JSONObject, JSONArray> {
+private class AndroidJSONObjectAdapter : JsonObjectAdapter<JSONObject, JSONArray> {
 
     override fun addStringProperty(target: JSONObject, key: String, value: String) {
         target.put(key, value)
@@ -74,7 +74,7 @@ private class NativeJSONObjectAdapter : JsonObjectAdapter<JSONObject, JSONArray>
     }
 }
 
-private class NativeJSONArrayAdapter : JsonArrayAdapter<JSONObject, JSONArray> {
+private class AndroidJSONArrayAdapter : JsonArrayAdapter<JSONObject, JSONArray> {
 
     override fun addStringElement(target: JSONArray, value: String) {
         target.put(value)
