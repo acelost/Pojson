@@ -73,7 +73,7 @@ open class TypeNotationInterpreter<ObjType, ArrType>(
     }
 
     fun arrayOfNumbers(vararg items: Number): GenericArrayTransfer<ArrType> {
-        return arrayOfNumbers(*items)
+        return arrayOfNumbers(items.asIterable())
     }
 
     fun arrayOfStrings(items: Iterable<String>): GenericArrayTransfer<ArrType> {
@@ -85,7 +85,7 @@ open class TypeNotationInterpreter<ObjType, ArrType>(
     }
 
     fun arrayOfStrings(vararg items: String): GenericArrayTransfer<ArrType> {
-        return arrayOfStrings(*items)
+        return arrayOfStrings(items.asIterable())
     }
 
     fun arrayOfBooleans(items: Iterable<Boolean>): GenericArrayTransfer<ArrType> {
@@ -97,7 +97,7 @@ open class TypeNotationInterpreter<ObjType, ArrType>(
     }
 
     fun arrayOfBooleans(vararg items: Boolean): GenericArrayTransfer<ArrType> {
-        return arrayOfBooleans(*items)
+        return arrayOfBooleans(items.asIterable())
     }
 
     fun arrayOfObjects(
